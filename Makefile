@@ -9,7 +9,7 @@ all: clean setup lint test
 
 .PHONY: lint
 lint:
-	$(LINTER) run -c ./.golangci-lint.yml
+	$(LINTER) run -c ./.golangci-lint.yml --fix
 	@make tidy
 	@if ! git diff --quiet; then \
 		echo "'go mod tidy' resulted in changes or working tree is dirty:"; \
