@@ -1,11 +1,15 @@
 LINTER_VERSION=v1.45.0
+LINTER=./bin/golangci-lint
+ifeq ($(OS),Windows_NT)
+	LINTER=./bin/golangci-lint.exe
+endif
 
 .PHONY: all
 all: clean setup lint test
 
-.PHONY: linter001
+.PHONY: lint
 lint:
-	./bin/golangci-lint run -c ./.golangci-lint.yml
+	$(LINTER) run -c ./.golangci-lint.yml
 	@make tidy
 	@if ! git diff --quiet; then \
 		echo "'go mod tidy' resulted in changes or working tree is dirty:"; \
