@@ -49,5 +49,5 @@ jobs:
       uses: shogo82148/actions-goveralls@v1
       with:
         path-to-profile: cover.out
-        flag-name: Go-${{ matrix.go }}
+        flag-name: Go-${{ matrix.go-version }}
         parallel: true
