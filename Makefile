@@ -1,4 +1,3 @@
-LINTER?=$$(which golangci-lint)
 LINTER_VERSION=v1.45.0
 
 .PHONY: all
@@ -16,7 +15,7 @@ lint:
 .PHONY: setup
 setup:
 	go mod download
-	@if [ "$(LINTER)" = "" ]; then \
+	@if [ ! -f "./bin/golangci-lint" ]; then \
 		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s $(LINTER_VERSION); \
 	fi
 
@@ -32,11 +31,13 @@ tidy:
 cover:
 	go test -race -coverprofile=cover.out -coverpkg=./... ./...
 	go tool cover -html=cover.out -o cover.html
-	@unlink cover.out
 
 .PHONY: clean
 clean:
 	go clean -testcache
 	@if [ -f "cover.html" ]; then \
 		rm -f cover.html; \
+	fi
+	@if [ -f "cover.out" ]; then \
+		rm -f cover.out; \
 	fi
