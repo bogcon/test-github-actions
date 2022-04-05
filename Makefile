@@ -6,7 +6,7 @@ all: clean setup lint test
 
 .PHONY: linter001
 lint:
-	golangci-lint run -c ./.golangci-lint.yml
+	./bin/golangci-lint run -c ./.golangci-lint.yml
 	@make tidy
 	@if ! git diff --quiet; then \
 		echo "'go mod tidy' resulted in changes or working tree is dirty:"; \
@@ -17,7 +17,7 @@ lint:
 setup:
 	go mod download
 	@if [ "$(LINTER)" = "" ]; then \
-		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin $(LINTER_VERSION); \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s $(LINTER_VERSION); \
 	fi
 
 .PHONY: test
