@@ -19,7 +19,7 @@ lint:
 .PHONY: setup
 setup:
 	go mod download
-	@if [ ! -f "./bin/golangci-lint" ]; then \
+	@if [ ! -f "$(LINTER)" ]; then \
 		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s $(LINTER_VERSION); \
 	fi
 

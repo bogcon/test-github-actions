@@ -50,4 +50,4 @@ jobs:
       with:
         path-to-profile: cover.out
         flag-name: ${{ runner.os }}/Go-${{ matrix.go-version }}
-        parallel: true
+        parallel: false
