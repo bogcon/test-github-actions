@@ -39,9 +39,9 @@ cover:
 .PHONY: clean
 clean:
 	go clean -testcache
-	@if [ -f "cover.html" ]; then \
+	@if [ -f cover.html ]; then \
 		rm -f cover.html; \
 	fi
-	@if [ -f "cover.out" ]; then \
+	@if [ -f cover.out ]; then \
 		rm -f cover.out; \
 	fi
