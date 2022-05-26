@@ -46,11 +46,11 @@ docker run -d \
     /usr/local/bin/etcd -advertise-client-urls http://some-etcd:2379 -listen-client-urls http://0.0.0.0:2379
 
 echo ">>> Show Running Docker Containers"
-sleep 30
+sleep 15
 docker ps
 
 echo ">>> Executing some commands upon dockers"
-curl -X PUT --data-binary "@data.json" http://127.0.0.1:8500/v1/kv/test-key
-curl -X GET http://127.0.0.1:8500/v1/kv/test-key
+curl -X PUT --data-binary "@data.json" http://some-consul:8500/v1/kv/test-key
+curl -X GET http://some-consul:8500/v1/kv/test-key
 docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl put test-key test-value"
 docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl get test-key"
