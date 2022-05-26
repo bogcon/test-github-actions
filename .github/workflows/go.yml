@@ -75,7 +75,7 @@ jobs:
       run: go mod download
 
     - name: List dir
-      run: ls -la
+      run: ls -la && ls -la ./.github && ls -la ./.github/workflows
 
     - name: SetUp dockers
       run: ${{ github.workspace }}/.github/workflows/setup_dockers_deb.sh
