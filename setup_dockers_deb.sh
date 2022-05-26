@@ -1,7 +1,13 @@
-#!/bin/sh
+#!/bin/sh -eux
+
+#!/bin/sh -eux
 
 echo ">>> Install deps"
-apk add docker curl jq
+apt-get install -y --no-install-recommends \
+	docker \
+	curl \
+	jq \
+; \
 
 network=$(docker inspect --format '{{json .NetworkSettings.Networks}}' `hostname` | jq -r 'keys[0]')
 echo "network = ${network}"
@@ -29,7 +35,7 @@ sleep 10
 docker ps
 
 echo ">>> Executing some commands upon dockers"
-curl -X PUT --data-binary "@data.json" http://some-consul:8500/v1/kv/test-key
-curl -X GET http://some-consul:8500/v1/kv/test-key
+curl -X PUT --data-binary "@data.json" http://127.0.0.1:8500/v1/kv/test-key
+curl -X GET http://127.0.0.1:8500/v1/kv/test-key
 docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl put test-key test-value"
 docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl get test-key"

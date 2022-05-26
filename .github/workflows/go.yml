@@ -57,7 +57,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
-    container: golang:1.18.2-alpine3.16
+    container: golang:1.18.2-bullseye
 
     steps:
     - name: Checkout code
@@ -74,5 +74,8 @@ jobs:
     - name: Download dependencies
       run: go mod download
 
-    - name: Run dockers
-      run: ./docker.sh
+    - name: SetUp dockers
+      run: ./setup_dockers_deb.sh
+
+    - name: TearDown dockers
+      run: ./teardown_dockers.sh
