@@ -76,12 +76,15 @@ jobs:
 
     - name: Run dockers
       run: |
-        echo ">>> Install docker"
-        apk add docker
+        echo ">>> Install deps"
+        apk add docker curl
         echo ">>> Run Consul Docker Image"
+        docker pull -q consul:1.12.0
         docker run -d --name=some-consul -p 8500:8500 -e CONSUL_BIND_INTERFACE=eth0 consul:1.12.0
         echo ">>> Run Etcd Docker Image"
+        docker pull -q quay.io/coreos/etcd:v3.5.3
         docker run -d --name=some-etcd -p 2379:2379 quay.io/coreos/etcd:v3.5.3 /usr/local/bin/etcd -advertise-client-urls http://some-etcd:2379 -listen-client-urls http://0.0.0.0:2379
+        echo ">>> Show Running Docker Containers"
         docker ps
         curl -s -X GET http://127.0.0.1/v1/kv/test-key
         docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl put test-key test-value"
