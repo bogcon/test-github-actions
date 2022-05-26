@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eux
 
 echo ">>> Install deps"
 apt-get update
