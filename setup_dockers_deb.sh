@@ -1,10 +1,11 @@
-#!/bin/sh -eux
+#!/bin/sh
 
 #!/bin/sh -eux
 
 echo ">>> Install deps"
 apt-get install -y --no-install-recommends \
-	docker \
+	docker-ce \
+    docker-ce-cli \
 	curl \
 	jq \
 ; \
