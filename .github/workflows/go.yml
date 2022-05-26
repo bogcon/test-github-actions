@@ -51,3 +51,42 @@ jobs:
         path-to-profile: cover.out
         flag-name: ${{ runner.os }}/Go-${{ matrix.go-version }}
         parallel: false
+
+  customDocker:
+    name: Run some docker images and logic inside alpine
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    container: alpine:3.16.0
+
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18.x
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Load cached dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Run dockers
+      run: |
+        echo ">>> Install docker"
+        apk add docker
+        echo ">>> Run Consul Docker Image"
+        docker run -d --name=some-consul -p 8500:8500 -e CONSUL_BIND_INTERFACE=eth0 consul:1.12.0
+        echo ">>> Run Etcd Docker Image"
+        docker run -d --name=some-etcd -p 2379:2379 quay.io/coreos/etcd:v3.5.3 /usr/local/bin/etcd -advertise-client-urls http://some-etcd:2379 -listen-client-urls http://0.0.0.0:2379
+        docker ps
+        curl -s -X GET http://127.0.0.1/v1/kv/test-key
+        docker exec some-etcd /bin/sh -c "export ETCDCTL_API=3 && /usr/local/bin/etcdctl put test-key test-value"
