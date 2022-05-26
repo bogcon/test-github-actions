@@ -46,7 +46,7 @@ docker run -d \
     /usr/local/bin/etcd -advertise-client-urls http://some-etcd:2379 -listen-client-urls http://0.0.0.0:2379
 
 echo ">>> Show Running Docker Containers"
-sleep 15
+sleep 30
 docker ps
 
 echo ">>> Executing some commands upon dockers"
