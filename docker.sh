@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 echo ">>> Install deps"
 apk add docker curl jq
