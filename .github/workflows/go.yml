@@ -75,7 +75,7 @@ jobs:
       run: go mod download
 
     - name: SetUp dockers
-      run: ./setup_dockers_deb.sh
+      run: ${{ github.workspace }}/setup_dockers_deb.sh
 
     - name: TearDown dockers
-      run: ./teardown_dockers.sh
+      run: ${{ github.workspace }}/teardown_dockers.sh
